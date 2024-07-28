@@ -13,7 +13,7 @@ import torch.optim as optim
 
 Let's create a 1-D vector of 10 random floats. Notice the output of the ~type~ function on the vector. ~torch.Tensor~ is more than just the tensor it purports to be.
 
-#+begin_src python
+#+begin_src python :exports both
 rnd_vec = torch.randn(10)
 print(type(rnd_vec))
 print(rnd_vec)
