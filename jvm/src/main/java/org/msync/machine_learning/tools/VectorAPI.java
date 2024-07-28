@@ -8,7 +8,6 @@ import java.util.stream.IntStream;
 
 class VectorAPI {
 
-    private static VectorAPI api = new VectorAPI();
     static final VectorSpecies<Integer> SPECIES = IntVector.SPECIES_PREFERRED;
 
     public static int[] addScalarArrays(int[] a, int[] b) {
@@ -23,18 +22,15 @@ class VectorAPI {
         return a.add(b);
     }
 
-
     public static void main(String args[]) {
-        var arrayLen = 10000;
-        int[] a = IntStream.generate(() -> new Random().nextInt(100)).limit(arrayLen).toArray();
-        ;
-        int[] b = IntStream.generate(() -> new Random().nextInt(100)).limit(arrayLen).toArray();
-        ;
+        var arrayLen = 10_000;
         int loop_count = 100_000;
+        int[] a = IntStream.generate(() -> new Random().nextInt(100)).limit(arrayLen).toArray();
+        int[] b = IntStream.generate(() -> new Random().nextInt(100)).limit(arrayLen).toArray();
 
         var start_time = System.nanoTime();
         for (int count = 0; count < loop_count; count++) {
-            api.addScalarArrays(a, b);
+            addScalarArrays(a, b);
         }
 //        System.out.println(STR."Scalar result: \{java.util.Arrays.toString(result)}");
         var end_time = System.nanoTime();
@@ -44,7 +40,7 @@ class VectorAPI {
         IntVector vb = IntVector.fromArray(SPECIES, b, 0);
         start_time = System.nanoTime();
         for (int count = 0; count < loop_count; count++) {
-            IntVector vr = api.addVectorArrays(va, vb);
+            IntVector vr = addVectorArrays(va, vb);
             int[] result2 = new int[4];
             vr.intoArray(result2, 0);
         }

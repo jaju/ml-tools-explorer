@@ -14,7 +14,8 @@ amplitude1 = 1
 amplitude2 = 0.5
 
 # The signal vector
-signal = amplitude1 * np.sin(2 * np.pi * frequency1 * t) + amplitude2 * np.sin(2 * np.pi * frequency2 * t)
+signal = amplitude1 * np.sin(2 * np.pi * frequency1 * t) + \
+    amplitude2 * np.sin(2 * np.pi * frequency2 * t)
 
 fourier_transform = np.fft.fft(signal)
 frequencies = np.fft.fftfreq(len(fourier_transform), 1/sampling_rate)
