@@ -11,7 +11,7 @@ import torch.optim as optim
 
 #+RESULTS:
 
-Let's create a 1-D vector of 10 random floats. Notice the output of the `type` function on the vector. `torch.Tensor` is more than just the tensor it purports to be.
+Let's create a 1-D vector of 10 random floats. Notice the output of the ~type~ function on the vector. ~torch.Tensor~ is more than just the tensor it purports to be.
 
 #+begin_src python
 rnd_vec = torch.randn(10)
@@ -21,8 +21,8 @@ print(rnd_vec)
 
 #+RESULTS:
 : <class 'torch.Tensor'>
-: tensor([-0.4266,  0.7676, -0.7075,  1.1557, -0.0956,  0.3207, -1.5540,  0.4836,
-:          1.2882, -1.5291])
+: tensor([-0.2842,  0.3082, -0.7347, -0.5907,  0.0441, -0.4838, -0.2542,  1.3246,
+:         -1.0247,  0.6760])
 
 
 It'd be misleading to consider it to be just a tensor. Took me a while to realise. It's made to carry additional responsibilities and data to record information like the change deltas and the gradient functions that are key pieces of information used during the learning phase.
@@ -41,28 +41,28 @@ print(view_3d)
 
 #+RESULTS:
 #+begin_example
-tensor([ 0.8751, -0.3140,  1.3990,  0.2480, -1.0160, -0.2668, -1.5243,  0.0509,
-        -0.4231, -0.4521])
-tensor([[ 0.8751, -0.3140],
-        [ 1.3990,  0.2480],
-        [-1.0160, -0.2668],
-        [-1.5243,  0.0509],
-        [-0.4231, -0.4521]])
-tensor([[[ 0.8751],
-         [-0.3140],
-         [ 1.3990],
-         [ 0.2480],
-         [-1.0160]],
+tensor([-0.2842,  0.3082, -0.7347, -0.5907,  0.0441, -0.4838, -0.2542,  1.3246,
+        -1.0247,  0.6760])
+tensor([[-0.2842,  0.3082],
+        [-0.7347, -0.5907],
+        [ 0.0441, -0.4838],
+        [-0.2542,  1.3246],
+        [-1.0247,  0.6760]])
+tensor([[[-0.2842],
+         [ 0.3082],
+         [-0.7347],
+         [-0.5907],
+         [ 0.0441]],
 
-        [[-0.2668],
-         [-1.5243],
-         [ 0.0509],
-         [-0.4231],
-         [-0.4521]]])
+        [[-0.4838],
+         [-0.2542],
+         [ 1.3246],
+         [-1.0247],
+         [ 0.6760]]])
 #+end_example
 
 
-Let us next execute a simple linear regression example. `nn.Module` is a basic building block for creating a chain of operations on an input tensor, leading to an output tensor. The following example is a chain of *one*. We use the `nn.Linear` concrete class within our custom implementation.
+Let us next execute a simple linear regression example. ~nn.Module~ is a basic building block for creating a chain of operations on an input tensor, leading to an output tensor. The following example is a chain of *one*. We use the ~nn.Linear~ concrete class within our custom implementation.
 
 #+begin_src python
 class LinearRegressor(nn.Module):
@@ -82,11 +82,11 @@ for name, param in model.named_parameters():
 
 #+RESULTS:
 : linear.weight Parameter containing:
-: tensor([[-0.3525]], requires_grad=True)
+: tensor([[0.2917]], requires_grad=True)
 : linear.bias Parameter containing:
-: tensor([-0.6682], requires_grad=True)
+: tensor([-0.3132], requires_grad=True)
 
-The output shows `weight` and `bias` in the module initialized from `nn.Linear`. Analogy to $$ax + b = y$$ is straightforwad - `a` is the weight and `b` is the bias.`
+The output shows ~weight~ and ~bias~ in the module initialized from ~nn.Linear~. Analogy to $ax + b = y$ is straightforwad - ~a~ is the weight and ~b~ is the bias.
 
 #+begin_src python
 criterion = nn.MSELoss()
@@ -113,8 +113,8 @@ print(y_test.item())
 #+end_src
 
 #+RESULTS:
-: 16.999996185302734
+: 16.99999237060547
 
-Our training data is an ideal training data - the dependent $y$ is related to $x$ as $3x + 2$. The model is initialized with random values for the weight and the bias. In a loop, then we calculate the delta of the prediction from the actual, and use that to propagate update backwards. Pytorch tensors have the infrastructure to remember the changes and supply them to the optimizer so that it can calculate the change needed to move the parameters of the `layer` in the right direction, so as to reduce the `loss` in the next step - or epoch.
+Our training data is an ideal training data - the dependent $y$ is related to $x$ as $3x + 2$. The model is initialized with random values for the weight and the bias. In a loop, then we calculate the delta of the prediction from the actual, and use that to propagate update backwards. Pytorch tensors have the infrastructure to remember the changes and supply them to the optimizer so that it can calculate the change needed to move the parameters of the ~layer~ in the right direction, so as to reduce the ~loss~ in the next step - or epoch.
 
 Experimenting with different values for the number of epochs and the learning rate is useful - to gain some good understanding of how they affect convergence for different kinds of data, networks, and choices of optimizers and loss functions.
