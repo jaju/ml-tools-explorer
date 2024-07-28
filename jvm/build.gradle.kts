@@ -4,13 +4,14 @@ plugins {
 
 java {
     toolchain {
-        languageVersion = JavaLanguageVersion.of(21)
+        languageVersion = JavaLanguageVersion.of(22)
     }
 }
 
 tasks.compileJava {
     options.compilerArgs.add("--enable-preview")
     options.compilerArgs.add("--add-modules=jdk.incubator.vector")
+    options.compilerArgs.add("-Xlint:preview")
 }
 
 tasks.withType<JavaExec>().configureEach {
