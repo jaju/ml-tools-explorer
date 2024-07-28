@@ -28,7 +28,7 @@ print(rnd_vec)
 It'd be misleading to consider it to be just a tensor. Took me a while to realise. It's made to carry additional responsibilities and data to record information like the change deltas and the gradient functions that are key pieces of information used during the learning phase.
 
 We can project views from this tensor rnd_vec.
-#+begin_src python
+#+begin_src python :exports both
 view_vec = rnd_vec.view(-1)
 print(view_vec)
 
@@ -64,7 +64,7 @@ tensor([[[-0.2842],
 
 Let us next execute a simple linear regression example. ~nn.Module~ is a basic building block for creating a chain of operations on an input tensor, leading to an output tensor. The following example is a chain of *one*. We use the ~nn.Linear~ concrete class within our custom implementation.
 
-#+begin_src python
+#+begin_src python :exports both
 class LinearRegressor(nn.Module):
     def __init__(self):
         super(LinearRegressor, self).__init__()
@@ -88,7 +88,7 @@ for name, param in model.named_parameters():
 
 The output shows ~weight~ and ~bias~ in the module initialized from ~nn.Linear~. Analogy to $ax + b = y$ is straightforwad - ~a~ is the weight and ~b~ is the bias.
 
-#+begin_src python
+#+begin_src python :exports both
 criterion = nn.MSELoss()
 optimizer = optim.SGD(model.parameters(), lr=0.1)
 
