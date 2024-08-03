@@ -7,4 +7,4 @@
 This is a place to record all links that might be of interest
 
 * Foundations
-- [EEML'24] Alfredo Canziani - Foundations of Deep Learning  {{{youtube(1bBOneUMu3Y)}}}
+- [[youtube:1bBOneUMu3Y][[EEML'24] Alfredo Canziani - Foundations of Deep Learning]]
