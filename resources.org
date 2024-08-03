@@ -1,10 +1,50 @@
-#+macro: youtube @@html:<div class="org-youtube"><iframe src="https://www.youtube-nocookie.com/embed/$1" allowfullscreen title="YouTube Video"></iframe></div>@@
-#+macro: hf [[https://huggingface.co/$1][$1]]
-#+macro: arxiv [[https://arxiv.org/abs/$1][$2]]
-
 #+title: Resources
 
-This is a place to record all links that might be of interest
+This is a place to record all links that might be of interest, and I will attempt to update these regularly, to keep them relevant for the times. So, older, more mainstream ideas will go away and newer ideas will come in. (Caveat: The foundations part will rarely change, unless superceded by better materials that get created all the times, but at a lower rate.)
+
+* Novel Ideas for the Times
+- [[https://arxiv.org/html/2407.04620v1][Learning to (Learn at Test Time): RNNs with Expressive Hidden States]]
+  Self-attention has quadratic complexity, so context grows expensive quickly. RNNs on the other hand have a less expressive hidden state. The proposal here is on enhancing the expressivity of the hidden state, by continuously folding in the sequence data by making the hidden state a machine learning model itself. Comparisons with Transformers and Mamba included.
+- [[https://github.com/Cornell-RelaxML/quip-sharp][Quip Sharp]]
+  A weights-only post-training quantization method, but claiming novelty in how they quantize better (from an information-theory, compression PoV).
+- [[https://github.com/microsoft/aici][AICI]] - Artificial Intelligence Controller Interface
+  This is also a tool, and could be in the *Tools* section. But I guess it is important enough to come here first. AICI currently integrates with llama.cpp, HuggingFace Transformers, and vLLM.
 
 * Foundations
-- [[youtube:1bBOneUMu3Y][[EEML'24] Alfredo Canziani - Foundations of Deep Learning]]
+- Youtube video -  [[https://www.youtube.com/watch?v=1bBOneUMu3Y][[EEML'24] Alfredo Canziani - Foundations of Deep Learning]]
+- [[https://justine.lol/matmul/][LLaMA Now Goes Faster on CPUs]] - While this is an article really, it's a *LOT* of insights to help build engineering foundations at the lowest of levels.
+- [[https://www.youtube.com/watch?v=tIeHLnjs5U8][Backpropagation calculus | Chapter 4, Deep learning]] - 3Blue1Brown's video
+- [[http://neuralnetworksanddeeplearning.com/index.html][Neural Networks and Deep Learning]] - A free online book
+
+* Tutorials
+** Reasoning
+- Youtube video - [[https://www.youtube.com/watch?v=CyIuM5eQZ5A][[EEML'24] Matko Bošnjak & Petar Veličković - Reasoning Tutorial]]
+** Theory
+- [[https://www.sscardapane.it/alice-book/][Book: Alice’s Adventures in a differentiable wonderland]] - A free online book (+ published physical book) on the basics of optimizing functions via automatic differentiation.
+** Examples
+- [[https://matthewdowney.github.io/clojure-neural-networks-from-scratch-mnist.html][Notes on neural networks from scratch in Clojure]]
+
+* Interpretation and Intuition
+- OpenAI: [[https://openai.com/index/extracting-concepts-from-gpt-4/][Extracting Concepts from GPT-4]] - June 2024
+- Lamini AI: [[https://github.com/lamini-ai/Lamini-Memory-Tuning/blob/main/research-paper.pdf][Banishing LLM Hallucinations Requires Rethinking Generalization]]
+  - Idea: Augmenting LLMs with a large number of memory experts. They claim that the use of a massive Mixture of Memory Experts (MoME) can help reduce hallucinations substantially.
+- [[https://ujjwalkarn.me/2016/08/11/intuitive-explanation-convnets/][The intuition of CNNs]]
+
+* Training Data
+- [[https://huggingface.co/spaces/HuggingFaceFW/blogpost-fineweb-v1][FineWeb: decanting the web for the finest text data at scale]] - 31 May 2024
+
+* Blogs/Videos/News
+- [[https://machinelearning.apple.com/][Apple - Machine Learning Research]]
+- [[https://lmsys.org/][LMSYS Org]] - The Large Model Systems Organization - Blogs and Projects
+- [[https://transformer-circuits.pub/][Transformer Circuits Thread]]
+- [[https://www.youtube.com/@srush_nlp][Sasha Rush on Youtube]]
+
+* Tools
+- [[https://github.com/josephmisiti/awesome-machine-learning/tree/master][Awesome Machine Learning]] - a curated list of ML resources
+- [[https://ollama.ai/][Ollama]] - Local application
+- [[https://cortex.so/][Cortex]] - Local application
+- [[https://docs.vllm.ai/en/latest/][vLLM]] - A fast and easy-to-use library for LLM inference and serving.
+  They introduce the idea of [[https://blog.vllm.ai/2023/06/20/vllm.html][PagedAttention]], to manage attention keys and values more efficiently.
+- [[https://github.com/philipturner/metal-flash-attention][metal-flash-attention]] - A port of Flash Attention to Apple Silicon hardware.
+- [[https://optuna.org/][Optuna]] - A framework agnostic open source hyperparameter optimization framework
+- [[https://gorilla.cs.berkeley.edu/][Gorilla]] - System and algorithms for integrating LLMs with applications, tools and services
