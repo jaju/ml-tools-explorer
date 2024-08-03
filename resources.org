@@ -1,0 +1,10 @@
+#+macro: youtube @@html:<div class="org-youtube"><iframe src="https://www.youtube-nocookie.com/embed/$1" allowfullscreen title="YouTube Video"></iframe></div>@@
+#+macro: hf [[https://huggingface.co/$1][$1]]
+#+macro: arxiv [[https://arxiv.org/abs/$1][$2]]
+
+#+title: Resources
+
+This is a place to record all links that might be of interest
+
+* Foundations
+- [EEML'24] Alfredo Canziani - Foundations of Deep Learning  {{{youtube(1bBOneUMu3Y)}}}
