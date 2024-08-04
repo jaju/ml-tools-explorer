@@ -11,6 +11,8 @@ import torch.optim as optim
 
 #+RESULTS:
 
+* Tensors
+
 Let's create a 1-D vector of 10 random floats. Notice the output of the ~type~ function on the vector. ~torch.Tensor~ is more than just the tensor it purports to be.
 
 #+begin_src python :exports both
@@ -21,46 +23,51 @@ print(rnd_vec)
 
 #+RESULTS:
 : <class 'torch.Tensor'>
-: tensor([-0.2842,  0.3082, -0.7347, -0.5907,  0.0441, -0.4838, -0.2542,  1.3246,
-:         -1.0247,  0.6760])
+: tensor([ 1.2958, -2.6049, -0.3581, -0.2986, -1.0571, -0.7740,  0.4963, -0.4095,
+:          0.2328, -1.0207])
 
 
-It'd be misleading to consider it to be just a tensor. Took me a while to realise. It's made to carry additional responsibilities and data to record information like the change deltas and the gradient functions that are key pieces of information used during the learning phase.
 
-We can project views from this tensor rnd_vec.
+** Views on Tensors
+
+We can project views from this tensor rnd_vec. Notice the order in which values are printed for each view - they are the same, read linearly. But the grouping happens as per the suggested view shape.
+
 #+begin_src python :exports both
 view_vec = rnd_vec.view(-1)
 print(view_vec)
 
+# 5 groups of 2 each
 view_matrix = rnd_vec.view(5, 2)
 print(view_matrix)
 
+# 2 groups of 5 groups of 1 each
 view_3d = rnd_vec.view(2, 5, 1)
 print(view_3d)
 #+end_src
 
 #+RESULTS:
 #+begin_example
-tensor([-0.2842,  0.3082, -0.7347, -0.5907,  0.0441, -0.4838, -0.2542,  1.3246,
-        -1.0247,  0.6760])
-tensor([[-0.2842,  0.3082],
-        [-0.7347, -0.5907],
-        [ 0.0441, -0.4838],
-        [-0.2542,  1.3246],
-        [-1.0247,  0.6760]])
-tensor([[[-0.2842],
-         [ 0.3082],
-         [-0.7347],
-         [-0.5907],
-         [ 0.0441]],
+tensor([ 1.2958, -2.6049, -0.3581, -0.2986, -1.0571, -0.7740,  0.4963, -0.4095,
+         0.2328, -1.0207])
+tensor([[ 1.2958, -2.6049],
+        [-0.3581, -0.2986],
+        [-1.0571, -0.7740],
+        [ 0.4963, -0.4095],
+        [ 0.2328, -1.0207]])
+tensor([[[ 1.2958],
+         [-2.6049],
+         [-0.3581],
+         [-0.2986],
+         [-1.0571]],
 
-        [[-0.4838],
-         [-0.2542],
-         [ 1.3246],
-         [-1.0247],
-         [ 0.6760]]])
+        [[-0.7740],
+         [ 0.4963],
+         [-0.4095],
+         [ 0.2328],
+         [-1.0207]]])
 #+end_example
 
+It'd be misleading to consider it to be just a tensor. It's made to carry additional responsibilities and data to record information like the change deltas and the gradient functions that are key pieces of information used during the learning phase.
 
 Let us next execute a simple linear regression example. ~nn.Module~ is a basic building block for creating a chain of operations on an input tensor, leading to an output tensor. The following example is a chain of *one*. We use the ~nn.Linear~ concrete class within our custom implementation.
 
@@ -82,11 +89,13 @@ for name, param in model.named_parameters():
 
 #+RESULTS:
 : linear.weight Parameter containing:
-: tensor([[0.2917]], requires_grad=True)
+: tensor([[0.4051]], requires_grad=True)
 : linear.bias Parameter containing:
-: tensor([-0.3132], requires_grad=True)
+: tensor([0.7657], requires_grad=True)
 
-The output shows ~weight~ and ~bias~ in the module initialized from ~nn.Linear~. Analogy to $ax + b = y$ is straightforwad - ~a~ is the weight and ~b~ is the bias.
+The output shows ~weight~ and ~bias~ in the module initialized from ~nn.Linear~. You can draw an analogy to $wx + b = y$ with ~w~ as the weight and ~b~ as the bias.
+
+As we introduce this "model" to our training dataset - created as a simple $y = 3x +2$, we need as mechanism to help it understand how far away it is from the expected $y$ values - the _criterion_ - and how to fix the weight to reduce this error - the _optimizer_. Pytorch provides various such measurement and update classes.
 
 #+begin_src python :exports both
 criterion = nn.MSELoss()
@@ -113,8 +122,77 @@ print(y_test.item())
 #+end_src
 
 #+RESULTS:
-: 16.99999237060547
+: 17.0
+
+We started with random weights, which need to be adjusted. The amount and direction of adjustment is derived using calculus - what change in the weights and biases can lead to the outcome $y$ moving in the right direction? Pytorch Tensor-s can compute and store these gradients for $w$ and $b$ (also called, the parameters), and make them available when you are computing the adjustments. The actual update value is scaled by the learning rate _lr_.
 
 Our training data is an ideal training data - the dependent $y$ is related to $x$ as $3x + 2$. The model is initialized with random values for the weight and the bias. In a loop, then we calculate the delta of the prediction from the actual, and use that to propagate update backwards. Pytorch tensors have the infrastructure to remember the changes and supply them to the optimizer so that it can calculate the change needed to move the parameters of the ~layer~ in the right direction, so as to reduce the ~loss~ in the next step - or epoch.
 
+#+begin_src python :results both
+x2_test = torch.randn(5, 1)
+y2_test = model(x2_test)
+
+# The values printed should be vanishingly small
+print((x2_test * 3 + 2) - y2_test)
+#+end_src
+
+#+RESULTS:
+: tensor([[2.3842e-07],
+:         [2.3842e-07],
+:         [2.3842e-07],
+:         [2.3842e-07],
+:         [2.3842e-07]], grad_fn=<SubBackward0>)
+
 Experimenting with different values for the number of epochs and the learning rate is useful - to gain some good understanding of how they affect convergence for different kinds of data, networks, and choices of optimizers and loss functions.
+
+#+begin_src python :exports both
+def create_model(x_train, y_train, epochs=1000, lr=0.1):
+    model = LinearRegressor()
+    loss_criterion = nn.MSELoss()
+    optimizer = optim.SGD(model.parameters(), lr=lr)
+    model.train()
+    for epoch in range(epochs):
+        optimizer.zero_grad()
+        outputs = model(x_train)
+        loss = loss_criterion(outputs, y_train)
+        loss.backward()
+        optimizer.step()
+    model.eval()
+    return model
+#+end_src
+
+#+RESULTS:
+
+Let us experiment with varied epochs and learning rates
+#+begin_src python :exports both
+y2_ideal = x2_test * 3 + 2
+model1 = create_model(x_train, y_train, 1000, 1)
+print(model1(x2_test) - y2_ideal)
+
+model2 = create_model(x_train, y_train, 1000, 0.01)
+print(model2(x2_test) - y2_ideal)
+
+model3 = create_model(x_train, y_train, 1000, 0.1)
+print(model3(x2_test) - y2_ideal)
+#+end_src
+
+#+RESULTS:
+#+begin_example
+tensor([[nan],
+        [nan],
+        [nan],
+        [nan],
+        [nan]], grad_fn=<SubBackward0>)
+tensor([[-1.1921e-06],
+        [-3.0994e-06],
+        [-7.1526e-07],
+        [-2.8610e-06],
+        [-4.0531e-06]], grad_fn=<SubBackward0>)
+tensor([[-2.3842e-07],
+        [-2.3842e-07],
+        [-2.3842e-07],
+        [-2.3842e-07],
+        [-2.3842e-07]], grad_fn=<SubBackward0>)
+#+end_example
+
+The outcomes based on the choices are not random, but might appear so to the untrained mind. But that's the spectrum of differences between the experts and the novice, and getting great results versus not from the same datasets 😇.
