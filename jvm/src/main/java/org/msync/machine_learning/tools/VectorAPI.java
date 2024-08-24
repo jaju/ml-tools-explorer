@@ -30,9 +30,9 @@ class VectorAPI {
 
         var start_time = System.nanoTime();
         for (int count = 0; count < loop_count; count++) {
-            addScalarArrays(a, b);
+            var sum = addScalarArrays(a, b);
         }
-//        System.out.println(STR."Scalar result: \{java.util.Arrays.toString(result)}");
+
         var end_time = System.nanoTime();
         System.out.println(STR."Time taken for scalar addition: \{end_time - start_time}");
 
@@ -45,7 +45,6 @@ class VectorAPI {
             vr.intoArray(result2, 0);
         }
         end_time = System.nanoTime();
-//        System.out.println(STR."Vector result: \{java.util.Arrays.toString(result2)}");
         System.out.println(STR."Time taken for vector addition: \{end_time - start_time}");
     }
 
