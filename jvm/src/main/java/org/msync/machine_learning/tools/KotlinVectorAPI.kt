@@ -47,7 +47,15 @@ internal object KotlinVectorAPI {
                 val vr = addVectorArrays(va, vb)
                 val result2 = IntArray(4)
                 vr.intoArray(result2, 0)
+                if (count % 1000 == 0) {
+                    if (count % 10000 == 0) {
+                        println(count)
+                    } else {
+                        print(".")
+                    }
+                }
             }
+            println("Done loops: $loop_count")
         }
         println("KT: Time taken for vector addition: ${runTime.second}")
     }
