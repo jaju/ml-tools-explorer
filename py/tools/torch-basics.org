@@ -23,8 +23,8 @@ print(rnd_vec)
 
 #+RESULTS:
 : <class 'torch.Tensor'>
-: tensor([ 1.2958, -2.6049, -0.3581, -0.2986, -1.0571, -0.7740,  0.4963, -0.4095,
-:          0.2328, -1.0207])
+: tensor([-0.0183, -0.3427, -0.1544, -0.0145, -1.2310,  0.4460,  0.5361,  0.4710,
+:         -0.5114,  0.6465])
 
 
 
@@ -47,24 +47,24 @@ print(view_3d)
 
 #+RESULTS:
 #+begin_example
-tensor([ 1.2958, -2.6049, -0.3581, -0.2986, -1.0571, -0.7740,  0.4963, -0.4095,
-         0.2328, -1.0207])
-tensor([[ 1.2958, -2.6049],
-        [-0.3581, -0.2986],
-        [-1.0571, -0.7740],
-        [ 0.4963, -0.4095],
-        [ 0.2328, -1.0207]])
-tensor([[[ 1.2958],
-         [-2.6049],
-         [-0.3581],
-         [-0.2986],
-         [-1.0571]],
+tensor([-0.0183, -0.3427, -0.1544, -0.0145, -1.2310,  0.4460,  0.5361,  0.4710,
+        -0.5114,  0.6465])
+tensor([[-0.0183, -0.3427],
+        [-0.1544, -0.0145],
+        [-1.2310,  0.4460],
+        [ 0.5361,  0.4710],
+        [-0.5114,  0.6465]])
+tensor([[[-0.0183],
+         [-0.3427],
+         [-0.1544],
+         [-0.0145],
+         [-1.2310]],
 
-        [[-0.7740],
-         [ 0.4963],
-         [-0.4095],
-         [ 0.2328],
-         [-1.0207]]])
+        [[ 0.4460],
+         [ 0.5361],
+         [ 0.4710],
+         [-0.5114],
+         [ 0.6465]]])
 #+end_example
 
 It'd be misleading to consider it to be just a tensor. It's made to carry additional responsibilities and data to record information like the change deltas and the gradient functions that are key pieces of information used during the learning phase.
@@ -89,9 +89,9 @@ for name, param in model.named_parameters():
 
 #+RESULTS:
 : linear.weight Parameter containing:
-: tensor([[0.4051]], requires_grad=True)
+: tensor([[-0.5207]], requires_grad=True)
 : linear.bias Parameter containing:
-: tensor([0.7657], requires_grad=True)
+: tensor([-0.7738], requires_grad=True)
 
 The output shows ~weight~ and ~bias~ in the module initialized from ~nn.Linear~. You can draw an analogy to $wx + b = y$ with ~w~ as the weight and ~b~ as the bias.
 
@@ -122,7 +122,7 @@ print(y_test.item())
 #+end_src
 
 #+RESULTS:
-: 17.0
+: 16.999998092651367
 
 We started with random weights, which need to be adjusted. The amount and direction of adjustment is derived using calculus - what change in the weights and biases can lead to the outcome $y$ moving in the right direction? Pytorch Tensor-s can compute and store these gradients for $w$ and $b$ (also called, the parameters), and make them available when you are computing the adjustments. The actual update value is scaled by the learning rate _lr_.
 
@@ -137,11 +137,11 @@ print((x2_test * 3 + 2) - y2_test)
 #+end_src
 
 #+RESULTS:
-: tensor([[2.3842e-07],
-:         [2.3842e-07],
-:         [2.3842e-07],
-:         [2.3842e-07],
-:         [2.3842e-07]], grad_fn=<SubBackward0>)
+: tensor([[ 1.1921e-07],
+:         [ 2.3842e-07],
+:         [-7.1526e-07],
+:         [ 0.0000e+00],
+:         [-7.1526e-07]], grad_fn=<SubBackward0>)
 
 Experimenting with different values for the number of epochs and the learning rate is useful - to gain some good understanding of how they affect convergence for different kinds of data, networks, and choices of optimizers and loss functions.
 
@@ -183,16 +183,18 @@ tensor([[nan],
         [nan],
         [nan],
         [nan]], grad_fn=<SubBackward0>)
-tensor([[-1.1921e-06],
-        [-3.0994e-06],
-        [-7.1526e-07],
-        [-2.8610e-06],
-        [-4.0531e-06]], grad_fn=<SubBackward0>)
-tensor([[-2.3842e-07],
+tensor([[-9.5367e-07],
+        [-4.7684e-06],
+        [ 7.8678e-06],
+        [ 7.1526e-07],
+        [ 6.9141e-06]], grad_fn=<SubBackward0>)
+tensor([[-1.1921e-07],
         [-2.3842e-07],
-        [-2.3842e-07],
-        [-2.3842e-07],
-        [-2.3842e-07]], grad_fn=<SubBackward0>)
+        [ 7.1526e-07],
+        [ 0.0000e+00],
+        [ 7.1526e-07]], grad_fn=<SubBackward0>)
 #+end_example
+
+"A quick learner is just a yes man. A slow learner is better."
 
 The outcomes based on the choices are not random, but might appear so to the untrained mind. But that's the spectrum of differences between the experts and the novice, and getting great results versus not from the same datasets 😇.
