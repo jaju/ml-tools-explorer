@@ -198,3 +198,33 @@ tensor([[-1.1921e-07],
 "A quick learner is just a yes man. A slow learner is better."
 
 The outcomes based on the choices are not random, but might appear so to the untrained mind. But that's the spectrum of differences between the experts and the novice, and getting great results versus not from the same datasets 😇.
+
+* Broadcasting
+
+It's complicated. But it exists. So, when you need to use it, study it. You will sure forget it, until you need it again. When you study it again. And then just move on, until the next time.
+
+#+begin_src python :exports both
+x = torch.ones(())
+y = torch.ones(3, 1)
+z = torch.ones(1, 3)
+a = torch.ones(2, 1, 1)
+
+print("shapes")
+print(f"x: {x.shape}")
+print(f"y: {y.shape}")
+print(f"z: {z.shape}")
+print(f"a: {a.shape}")
+print(f"x * y        :", (x * y).shape)
+print(f"    y * z    :", (y * z).shape)
+print(f"    y * z * a:", (y * z * a).shape)
+#+end_src
+
+#+RESULTS:
+: shapes
+: x: torch.Size([])
+: y: torch.Size([3, 1])
+: z: torch.Size([1, 3])
+: a: torch.Size([2, 1, 1])
+: x * y        : torch.Size([3, 1])
+:     y * z    : torch.Size([3, 3])
+:     y * z * a: torch.Size([2, 3, 3])
