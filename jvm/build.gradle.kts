@@ -4,15 +4,21 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
     java
-    kotlin("jvm") version "2.0.20"
+    kotlin("jvm") version "2.0.21"
+}
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_22
+    targetCompatibility = JavaVersion.VERSION_22
 }
 
 tasks {
     withType<JavaCompile>().configureEach {
-        options.compilerArgs.add("--enable-preview")
-        options.compilerArgs.add("-Xlint:preview")
-        options.compilerArgs.add("--add-modules=jdk.incubator.vector")
-        options.release.set(22)
+        options.compilerArgs.run {
+//            add("--enable-preview")
+            add("-Xlint:preview")
+            add("--add-modules=jdk.incubator.vector")
+        }
     }
 
     withType<KotlinCompile>().configureEach {
