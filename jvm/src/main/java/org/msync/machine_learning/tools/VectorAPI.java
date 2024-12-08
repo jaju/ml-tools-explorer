@@ -35,7 +35,7 @@ class VectorAPI {
 
         var end_time = System.nanoTime();
         var scalar_time_taken = end_time - start_time;
-        System.out.println(STR."Time taken for scalar addition: \{scalar_time_taken}");
+        System.out.printf("Time taken for scalar addition: %d ns%n", scalar_time_taken);
 
         IntVector va = IntVector.fromArray(SPECIES, a, 0);
         IntVector vb = IntVector.fromArray(SPECIES, b, 0);
@@ -47,8 +47,8 @@ class VectorAPI {
         }
         end_time = System.nanoTime();
         var vector_time_taken = end_time - start_time;
-        System.out.println(STR."Time taken for vector addition: \{vector_time_taken}");
-        System.out.println(STR."Speedup: \{1.0*scalar_time_taken/vector_time_taken}");
+        System.out.printf("Time taken for vector addition: %d ns%n", vector_time_taken);
+        System.out.printf("Speedup: %f%n", 1.0*scalar_time_taken/vector_time_taken);
     }
 
 }
