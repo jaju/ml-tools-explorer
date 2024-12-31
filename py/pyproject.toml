@@ -1,19 +1,37 @@
-[tool.poetry]
-name = "machine-learning"
+[project]
+name = "py"
 version = "0.1.0"
-description = ""
-authors = ["Ravindra Jaju <jaju@msync.org>"]
+description = "Add your description here"
 readme = "README.md"
-
-[tool.poetry.dependencies]
-python = "^3.12"
-mlx = ">=0.17.2"
-torch = ">=2.4.1"
-numpy = ">=2.1.1"
-matplotlib = ">=3.9.2"
-spacy = ">=3.7.6"
-
-
-[build-system]
-requires = ["poetry-core"]
-build-backend = "poetry.core.masonry.api"
+requires-python = ">=3.12"
+dependencies = [
+    "asitop>=0.0.24",
+    "autopep8>=2.3.1",
+    "black>=24.10.0",
+    "clang-format>=19.1.4",
+    "flake8>=7.1.1",
+    "grip>=4.6.2",
+    "isort>=5.13.2",
+    "matplotlib>=3.9.3",
+    "mlx>=0.21.1",
+    "nbformat>=5.10.4",
+    "neovim>=0.3.1",
+    "openai>=1.57.0",
+    "peft>=0.14.0",
+    "pillow>=11.0.0",
+    "pip>=24.3.1",
+    "pre-commit>=4.0.1",
+    "proselint>=0.14.0",
+    "pynput>=1.7.7",
+    "pynvim>=0.5.2",
+    "pyperclip>=1.9.0",
+    "python-lsp-ruff>=2.2.2",
+    "python-lsp-server[websockets,yapf]>=1.12.0",
+    "ruff>=0.8.2",
+    "sentencepiece>=0.2.0",
+    "spacy[apple]>=3.8.2",
+    "torch>=2.5.1",
+    "transformers>=4.47.0",
+    "twine>=6.0.1",
+    "yapf>=0.43.0",
+]
