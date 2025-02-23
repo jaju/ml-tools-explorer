@@ -1,7 +1,10 @@
 import mlx.core as mx
+# %%
 import mlx.nn as nn
 import mlx.optimizers as optim
+print('hello')
 
+# %%
 rnd_vec = mx.random.normal(shape=[10])
 print(type(rnd_vec))
 print(rnd_vec)

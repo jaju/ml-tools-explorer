@@ -1,5 +1,7 @@
 /**/*.class
 /**/*.pyc
 
+/data
+
 /*.iml
 /.idea
